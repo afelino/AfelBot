@@ -1,38 +1,14 @@
 // Прошивка драйвера двигателей. Версия 2015-09-27.
-
-<<<<<<< HEAD
-// Небольшая программа для демонстрации работы платы Dagu Mini Driver.
-=======
-// Небольшая программа для демонстрации работы платы Dagu Mini Driver. 
-// По идее робот должен двигаться по квадрату, постоянно поворачивая налево.
->>>>>>> b953bfbd67b3b758b7416a1457bf8ae2e196571f
  
 const int LEFT_MOTOR_DIR_PIN = 7;
 const int LEFT_MOTOR_PWM_PIN = 9;
 const int RIGHT_MOTOR_DIR_PIN = 8;
 const int RIGHT_MOTOR_PWM_PIN = 10;
-<<<<<<< HEAD
 
 // Этими константами можно выравнять движение вперед, если робот сремится завернуть вправо или влево из-за того, что двигатели разные.
 const byte LEFT_MOTOR_SPEED = 220;
 const byte RIGHT_MOTOR_SPEED = 255;
 
-=======
-const int LED = 13;
-
-// Этой константой регулируется длинна ребра квадрата, по которой движется робот.
-const int DRIVE_FORWARD_TIME_MS = 500;
-
-// Этой константой регулируется угол, на который каждый раз будет поворачивать робот.
-const int TURN_TIME_MS = 250;
-
-// Этими константами можно выравнять движение вперед, если робот сремится завернуть вправо или в лево из-за того, что двигатели разные.
-const byte LEFT_MOTOR_SPEED = 220;
-const byte RIGHT_MOTOR_SPEED = 255;
-
-int led_status = HIGH;
-
->>>>>>> b953bfbd67b3b758b7416a1457bf8ae2e196571f
 //----------------------------------------------------------
 void setup()
 {
@@ -42,19 +18,9 @@ void setup()
     pinMode( RIGHT_MOTOR_DIR_PIN, OUTPUT );
     pinMode( RIGHT_MOTOR_PWM_PIN, OUTPUT );
 
-<<<<<<< HEAD
     Serial.begin(9600, SERIAL_8N1);
     while (!Serial) {}
     
-=======
-    pinMode( LED, OUTPUT );
-
-    Serial.begin(9600, SERIAL_8N1);
-    while (!Serial) {}
-    
-    digitalWrite( LED, led_status );
-    
->>>>>>> b953bfbd67b3b758b7416a1457bf8ae2e196571f
 }
  
 //----------------------------------------------------------
@@ -63,15 +29,10 @@ void loop()
   
   if(Serial.available() > 0){
   
-<<<<<<< HEAD
     // Чтение команды
     int inByte = Serial.read(); 
  
     // Обработка команд от малинки
-=======
-    int inByte = Serial.read(); 
- 
->>>>>>> b953bfbd67b3b758b7416a1457bf8ae2e196571f
     switch(inByte){
       case 'a':
         // Двигаемся вперед
@@ -79,10 +40,6 @@ void loop()
         digitalWrite( RIGHT_MOTOR_DIR_PIN, HIGH );
         analogWrite( LEFT_MOTOR_PWM_PIN, LEFT_MOTOR_SPEED );
         analogWrite( RIGHT_MOTOR_PWM_PIN, RIGHT_MOTOR_SPEED );
-<<<<<<< HEAD
-=======
-        //delay( DRIVE_FORWARD_TIME_MS );
->>>>>>> b953bfbd67b3b758b7416a1457bf8ae2e196571f
         break;
 
       case 's':
@@ -91,10 +48,6 @@ void loop()
         digitalWrite( RIGHT_MOTOR_DIR_PIN, LOW );
         analogWrite( LEFT_MOTOR_PWM_PIN, 128 );
         analogWrite( RIGHT_MOTOR_PWM_PIN, 128 );
-<<<<<<< HEAD
-=======
-        //delay( TURN_TIME_MS );
->>>>>>> b953bfbd67b3b758b7416a1457bf8ae2e196571f
         break;
 
       case 'd':
@@ -103,30 +56,12 @@ void loop()
         digitalWrite( RIGHT_MOTOR_DIR_PIN, HIGH);
         analogWrite( LEFT_MOTOR_PWM_PIN, 0 );
         analogWrite( RIGHT_MOTOR_PWM_PIN, 0 );
-<<<<<<< HEAD
-=======
-        //delay( 2000 );
->>>>>>> b953bfbd67b3b758b7416a1457bf8ae2e196571f
     }
     
     Serial.write(inByte);
     Serial.write('\n');
   
-<<<<<<< HEAD
   } 
 
-=======
-  } else {
-    Serial.write("Waiting...");
-  } 
-
-  if(led_status == HIGH){
-    led_status = LOW;
-  } else {
-    led_status = HIGH;
-  }
-  digitalWrite( LED, led_status );
- 
->>>>>>> b953bfbd67b3b758b7416a1457bf8ae2e196571f
 }
 
