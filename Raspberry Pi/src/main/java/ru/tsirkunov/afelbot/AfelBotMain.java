@@ -6,11 +6,7 @@ import com.pi4j.io.serial.SerialDataListener;
 import com.pi4j.io.serial.SerialFactory;
 
 /**
-<<<<<<< HEAD
  * Первая версия программы, которая заставляет робота двигаться по кругу.
-=======
- * Первая версия программы, 
->>>>>>> b953bfbd67b3b758b7416a1457bf8ae2e196571f
  *
  * @author Виталий Циркунов
  */
