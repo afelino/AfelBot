@@ -1,72 +1,155 @@
 package ru.tsirkunov.afelbot;
 
-import com.pi4j.io.serial.Serial;
-import com.pi4j.io.serial.SerialDataEvent;
-import com.pi4j.io.serial.SerialDataListener;
-import com.pi4j.io.serial.SerialFactory;
+import fi.iki.elonen.NanoHTTPD;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 
 /**
- * Первая версия программы, которая заставляет робота двигаться по кругу.
+ * Главный запускаемый файл.
+ * 
+ * В этом файле осуществляется обработка HTTP-запросов.
  *
  * @author Виталий Циркунов
  */
-public class AfelBotMain {
+public class AfelBotMain extends NanoHTTPD {
 
-    // Время, на которое включаются двигатели вперед.
-    private static final int DRIVE_FORWARD_TIME_MS = 500;
-
-    // Время, на которое включаются двигатели для разворота.
-    private static final int TURN_TIME_MS = 250;
-
-    // Время, на которое выключаются двигатели.
-    private static final int STOP_TIME_MS = 250;
-
+    // Содержимое файла index.html
+    private final String INDEX_HTML = readResource("index.xhtml");
+    // Содержимое файла style.css
+    private final String STYLE_CSS = readResource("style.css");
+    
+    // Драйвер двигателя (фейковый или настоящий)
+    private final MotorDriver md;
+    
     /**
-     * 
+     * Читает читает содержимое файла из архива jar и возвращает в виде строки.
+     * хранящийся в jar-файле.
+     * @param resourceName имя файла
+     * @return содержимое файла
+     */
+    private String readResource(String resourceName){
+        InputStream inputStream = getClass().getResourceAsStream(resourceName);
+        
+        try {
+            final char[] buffer = new char[1024];
+            final StringBuilder out = new StringBuilder();
+        
+            Reader in = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            for (;;) {
+                int rsz = in.read(buffer, 0, buffer.length);
+                if (rsz < 0) break;
+                out.append(buffer, 0, rsz);
+            }
+    
+            return out.toString();
+        } catch (IOException ex) {
+            // это невероятный случай.
+            return null;
+        }
+        
+    }
+    
+    /**
+     * Точка входа в программу, с этой процедуры начинается выполнение программы.
      * @param args
      * @throws java.lang.InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
 
-        Serial serial = SerialFactory.createInstance();
-        serial.open("/dev/ttyUSB0", 9600);
-        
-        // Прописываем обработчик, который выведет на консоль
-        serial.addListener(new Listener());
-
+        // Здесь определеяется настоящий драйвер двигателя, либо иммитация будет
+        // использована. Если передан параметр debug, то создается иммиация.
+        MotorDriver md;
+        if(args.length > 0 && "debug".equals(args[0])){
+            md = new NullMotorDriver();
+        } else {
+            md = new DaguMiniDriverComm();
+        }
+                
+        // Создается и запускается http-сервер.
+        AfelBotMain afelBotMain;
         try {
-            while (true) {
-                // Двигаться вперед
-                serial.write((byte) 'a');
-                serial.flush();
-                Thread.sleep(DRIVE_FORWARD_TIME_MS);
-
-                // Разворачиваться
-                serial.write((byte) 's');
-                serial.flush();
-                Thread.sleep(TURN_TIME_MS);
-
-                // Остановиться
-                serial.write((byte) 'd');
-                serial.flush();
-                Thread.sleep(STOP_TIME_MS);
-            }
-        } finally {
-            // Когда мы останавливаем программу с помощью Ctrl+C, блок finally пошлет последнюю
-            // команду, чтобы остановить двигатели.
-            serial.write((byte) 'd');
-            serial.flush();
+            afelBotMain = new AfelBotMain(md);
+            afelBotMain.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
+        } catch (IOException ioe) {
+            System.err.println("Ошибка запуска сервера:\n" + ioe);
         }
+        
+        // Мало ли в каком состоянии находится робот в момент остановки http-
+        // сервера, посылаемп команду на остановку.
+        md.stop();
 
     }
 
-    private static class Listener implements SerialDataListener {
-
-        @Override
-        public void dataReceived(SerialDataEvent event) {
-            // Вывод потока данных от платы управления двигателями.
-            System.out.println(event.getData());
-        }
+    /**
+     * Конструктур http-сервера.
+     * @param md драйвер двигателей.
+     * @throws IOException ошибка.
+     */
+    public AfelBotMain(MotorDriver md) throws IOException{
+        // сервер создается на порту 8081.
+        super(8081);
+        
+        this.md = md;
+        System.out.println("Сервер запущен");
     }
-
+    
+    /**
+     * Обрабатывает http-запросы.
+     * @param session собственно запрос.
+     * @return ответ для клиента.
+     */
+    @Override
+    public Response serve(IHTTPSession session) {
+        String uri = session.getUri();
+        
+        Response newFixedLengthResponse;
+        switch(uri){
+            case "/": 
+            case "/index.html":
+                
+                String button = session.getParms().get("button");
+                if(button != null){
+                    // Обработка нажатой кнопки
+                    switch (button) {
+                        case "forward":
+                            md.forward();
+                            break;
+                        case "turnleft":
+                            md.left();
+                            break;
+                        case "turnright":
+                            md.right();
+                            break;
+                        case "backward":
+                            md.backward();
+                            break;
+                        case "stop":
+                        default:
+                            md.stop();
+                            break;
+                    }
+                }
+                        
+                // Возвращаю содержимое страницы
+                newFixedLengthResponse = newFixedLengthResponse(INDEX_HTML);
+                newFixedLengthResponse.setMimeType(MIME_HTML);
+                return newFixedLengthResponse;
+            
+            case "/style.css":
+                
+                // Здесь возвращается файл стилей.
+                newFixedLengthResponse = newFixedLengthResponse(STYLE_CSS);
+                newFixedLengthResponse.setMimeType("text/css");
+                return newFixedLengthResponse;
+            
+            default:
+                // Выдаст ошибку 404, файл не найден.
+                return super.serve(session);
+        }
+        
+    }    
+    
 }

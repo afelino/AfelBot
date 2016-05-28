@@ -1,0 +1,40 @@
+/* 
+    Author     : Циркунов Виталий Андреевич
+*/
+
+html, body, button, form {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+div{
+    padding: 0;
+    margin: 0;
+}
+
+h1{
+    text-align: center;
+    height: 10%;
+    padding: 0;
+    margin: 0;
+}
+
+div.top, div.middle, div.bottom {
+    height: 30%; 
+}
+
+div.left, div.right, div.center{
+    float: left;
+    height: 100%;
+    width: 33%;
+}
+
+div.center{
+    width: 34%;
+}
+
+button {
+    display: block;
+    width: 100%;
+}

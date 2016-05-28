@@ -1,4 +1,4 @@
-// Прошивка драйвера двигателей. Версия 2015-09-27.
+// Прошивка драйвера двигателей. Версия 3.0.0.
  
 const int LEFT_MOTOR_DIR_PIN = 7;
 const int LEFT_MOTOR_PWM_PIN = 9;
@@ -34,7 +34,7 @@ void loop()
  
     // Обработка команд от малинки
     switch(inByte){
-      case 'a':
+      case 'f':
         // Двигаемся вперед
         digitalWrite( LEFT_MOTOR_DIR_PIN, HIGH );
         digitalWrite( RIGHT_MOTOR_DIR_PIN, HIGH );
@@ -42,15 +42,31 @@ void loop()
         analogWrite( RIGHT_MOTOR_PWM_PIN, RIGHT_MOTOR_SPEED );
         break;
 
-      case 's':
-        // Поворачиваем.
+      case 'r':
+        // Поворачиваем направо
+        digitalWrite( LEFT_MOTOR_DIR_PIN,  LOW);
+        digitalWrite( RIGHT_MOTOR_DIR_PIN, HIGH );
+        analogWrite( LEFT_MOTOR_PWM_PIN, 128 );
+        analogWrite( RIGHT_MOTOR_PWM_PIN, 128 );
+        break;
+
+      case 'l':
+        // Поворачиваем налево
         digitalWrite( LEFT_MOTOR_DIR_PIN, HIGH );
         digitalWrite( RIGHT_MOTOR_DIR_PIN, LOW );
         analogWrite( LEFT_MOTOR_PWM_PIN, 128 );
         analogWrite( RIGHT_MOTOR_PWM_PIN, 128 );
         break;
 
-      case 'd':
+      case 'b':
+        // Двигаемся назад
+        digitalWrite( LEFT_MOTOR_DIR_PIN, LOW );
+        digitalWrite( RIGHT_MOTOR_DIR_PIN, LOW );
+        analogWrite( LEFT_MOTOR_PWM_PIN, LEFT_MOTOR_SPEED );
+        analogWrite( RIGHT_MOTOR_PWM_PIN, RIGHT_MOTOR_SPEED );
+        break;
+
+      case 's':
         // Останавливаемся.
         digitalWrite( LEFT_MOTOR_DIR_PIN, HIGH );
         digitalWrite( RIGHT_MOTOR_DIR_PIN, HIGH);
@@ -61,7 +77,10 @@ void loop()
     Serial.write(inByte);
     Serial.write('\n');
   
-  } 
+  } else {
+    // Если никакая команда не пришла, то поспать немного, чтобы зря не расходовать батарею.
+    delay(10);
+  }
 
 }
 

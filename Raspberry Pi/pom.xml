@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.tsirkunov</groupId>
     <artifactId>AfelBot</artifactId>
-    <version>0.0.0</version>
+    <version>3.0.0</version>
     <packaging>jar</packaging>
     
     <dependencies>
@@ -11,6 +11,11 @@
             <groupId>com.pi4j</groupId>
             <artifactId>pi4j-core</artifactId>
             <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.nanohttpd</groupId>
+            <artifactId>nanohttpd</artifactId>
+            <version>2.3.0</version>
         </dependency>
     </dependencies>
     
