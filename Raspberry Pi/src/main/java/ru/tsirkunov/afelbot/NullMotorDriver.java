@@ -31,7 +31,30 @@ public class NullMotorDriver implements MotorDriver {
     public void stop() {
         System.out.println("Остановка.");
     }
-    
-    
+
+    @Override
+    public void cameraUp() {
+        System.out.println("Камера вверх.");
+    }
+
+    @Override
+    public void cameraDown() {
+        System.out.println("Камера вниз.");
+    }
+
+    @Override
+    public void cameraLeft() {
+        System.out.println("Камера влево.");
+    }
+
+    @Override
+    public void cameraRight() {
+        System.out.println("Камера вправо.");
+    }
+
+    @Override
+    public void cameraCenter() {
+        System.out.println("Камера по центру.");
+    }
     
 }

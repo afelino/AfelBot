@@ -30,6 +30,12 @@ div.left, div.right, div.center{
     width: 33%;
 }
 
+div.leftside, div.rightside {
+    float: left;
+    height: 100%;
+    width: 50%;
+}
+
 div.center{
     width: 34%;
 }

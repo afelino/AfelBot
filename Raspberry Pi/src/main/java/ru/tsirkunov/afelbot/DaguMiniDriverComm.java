@@ -51,6 +51,36 @@ public class DaguMiniDriverComm implements MotorDriver {
         serial.flush();
     }
 
+    @Override
+    public void cameraUp() {
+        serial.write((byte) 'u');
+        serial.flush();
+    }
+
+    @Override
+    public void cameraDown() {
+        serial.write((byte) 'd');
+        serial.flush();
+    }
+
+    @Override
+    public void cameraLeft() {
+        serial.write((byte) 'q');
+        serial.flush();
+    }
+
+    @Override
+    public void cameraRight() {
+        serial.write((byte) 'e');
+        serial.flush();
+    }
+
+    @Override
+    public void cameraCenter() {
+        serial.write((byte) 'w');
+        serial.flush();
+    }
+
     private class Listener implements SerialDataListener {
 
         @Override

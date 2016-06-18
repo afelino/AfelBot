@@ -10,26 +10,51 @@ public interface MotorDriver {
     /**
      * Двигаться назад.
      */
-    void backward();
+    public void backward();
 
     /**
      * Двигаться вперед.
      */
-    void forward();
+    public void forward();
 
     /**
      * Поворачивать влево на месте.
      */
-    void left();
+    public void left();
 
     /**
      * Поворачивать вправо на месте.
      */
-    void right();
+    public void right();
 
     /**
      * Остановиться.
      */
-    void stop();
+    public void stop();
+    
+    /**
+     * Поднять камеру
+     */
+    public void cameraUp(); 
+    
+    /**
+     * Опустить камеру
+     */
+    public void cameraDown(); 
+    
+    /**
+     * Повернуть камеру влево.
+     */
+    public void cameraLeft(); 
+    
+    /**
+     * Повернуть камеру вправо.
+     */
+    public void cameraRight(); 
+    
+    /**
+     * Отцентрировать камеру.
+     */
+    public void cameraCenter(); 
     
 }

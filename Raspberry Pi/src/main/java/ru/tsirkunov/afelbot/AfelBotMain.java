@@ -126,6 +126,21 @@ public class AfelBotMain extends NanoHTTPD {
                         case "backward":
                             md.backward();
                             break;
+                        case "cameraup":
+                            md.cameraUp();
+                            break;
+                        case "cameraleft":
+                            md.cameraLeft();
+                            break;
+                        case "cameracenter":
+                            md.cameraCenter();
+                            break;
+                        case "cameraright":
+                            md.cameraRight();
+                            break;
+                        case "cameradown":
+                            md.cameraDown();
+                            break;
                         case "stop":
                         default:
                             md.stop();
