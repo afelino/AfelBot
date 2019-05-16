@@ -1,0 +1,17 @@
+#left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    background: rgba(0, 255, 0, 0.1);
+}
+
+#right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    background: rgba(0, 0, 255, 0.1);
+}

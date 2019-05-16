@@ -1,2 +1,7 @@
 Raspberry Pi/target
 *.FCStd1
+/Raspberry Pi/node_modules/
+/Raspberry Pi/.classpath
+/Raspberry Pi/.project
+/Raspberry Pi/.settings/
+/Raspberry Pi/.vscode/

@@ -1,0 +1,35 @@
+{
+  "name": "afelbot",
+  "version": "2019.05.14",
+  "description": "Raspberry Pi часть AfelBot",
+  "main": "index.js",
+  "scripts": {
+    "serve": "ng serve",
+    "build": "ng build"
+  },
+  "author": "Циркунов Виталий Андреевич",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@angular-devkit/build-angular": "^0.13.4",
+    "@angular/cli": "7.3.9",
+    "@angular/common": "7.2.15",
+    "@angular/compiler": "7.2.15",
+    "@angular/compiler-cli": "7.2.15",
+    "@angular/core": "7.2.15",
+    "@angular/forms": "7.2.15",
+    "@angular/http": "7.2.15",
+    "@angular/platform-browser": "7.2.15",
+    "@angular/platform-browser-dynamic": "7.2.15",
+    "bootstrap": "4.3.1",
+    "jquery": "3.4.0",
+    "nipplejs": "0.8.2",
+    "rxjs": "6.4.0",
+    "rxjs-compat": "6.4.0",
+    "typescript": "3.2.4",
+    "zone.js": "0.8.29"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://afelino@github.com/afelino/AfelBot.git"
+  }
+}

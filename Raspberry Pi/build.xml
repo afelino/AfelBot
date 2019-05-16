@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="NgBuild">
+    
+    <target name="BuildAngular">
+        <echo message="Build Angular Staff"/>
+        <exec dir="${basedir}" executable="cmd">
+            <arg value="/C"/>
+            <arg value="ng"/>
+            <arg value="build"/>
+        </exec>
+        <copy todir="${project.build.directory}/classes/static">
+            <fileset dir="${project.build.directory}/angular"/>
+        </copy>        
+    </target> 
+    
+</project>
