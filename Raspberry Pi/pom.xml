@@ -39,6 +39,15 @@
             <artifactId>spring-boot-starter-webflux</artifactId>  
         </dependency>        
 
+        <!--
+            Позволяет меньше кода писать, используя аннотации
+        -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- Библиотека для работы с ресурсами Raspberry Pi -->
         <dependency>
             <groupId>com.pi4j</groupId>
@@ -56,6 +65,11 @@
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
+            
+            <!--
+            Здесь указываем версию Java. Насколько известно мне, это самая
+            поздняя версия, которая поддерживается в Raspbian
+            -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
@@ -65,6 +79,14 @@
                 </configuration>
             </plugin>
             
+            <!--
+            Этот плагин во время сборки Java-приложения также запустит
+            сборку браузерной части приложения, затем собранные файлы попадут
+            в окончательны jar-файл.
+            
+            Конкретно, этот плагин запустит сборщик ant, который выполнит то,
+            записано в build.xml.
+            -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>

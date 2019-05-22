@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="NgBuild">
-    
+<project name="AfelBot">
+     
     <target name="BuildAngular">
+        
         <echo message="Build Angular Staff"/>
+
+        <!-- Запускает ng build, который выполняет то, что записано в angular.json. -->
         <exec dir="${basedir}" executable="cmd">
             <arg value="/C"/>
             <arg value="ng"/>
-            <arg value="build"/>
+           <arg value="build"/>
         </exec>
+
+        <!-- Копируем вся, что сбилдилось ко всем собранным java-файлам. -->
         <copy todir="${project.build.directory}/classes/static">
             <fileset dir="${project.build.directory}/angular"/>
-        </copy>        
+        </copy>                                
     </target> 
     
-</project>
+</project>              

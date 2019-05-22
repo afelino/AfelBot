@@ -10,75 +10,41 @@ import com.pi4j.io.serial.SerialFactory;
  * @author Циркунов Виталий Андреевич
  */
 public class DaguMiniDriverComm implements MotorDriver {
+
     private final Serial serial;
     
     public DaguMiniDriverComm(){
         serial = SerialFactory.createInstance();
-        serial.open("/dev/ttyUSB0", 9600);
+        serial.open("/dev/ttyUSB0", 115200);
         
         // Прописываем обработчик, который выведет на консоль
         serial.addListener(new Listener());
         
     }
 
+    /**
+     * Метод передает 5 байт в драйвер двигателя. Не самое оптимальное решение,
+     * можно передавть всего 3 байта, если нужно будет соптимизировать, я
+     * переделаю. В любом случае 
+     * @param left
+     * @param right 
+     */
     @Override
-    public synchronized void forward(){
-        serial.write((byte) 'f');
-        serial.flush();
-    }
-    
-    @Override
-    public synchronized void left() {
-        serial.write((byte) 'l');
-        serial.flush();
-    }
-    
-    @Override
-    public synchronized void right () {
-        serial.write((byte) 'r');
-        serial.flush();
-    }
+    public synchronized void motor(int left, int right) {
+        byte[] buf = new byte[5];
+        buf[0] = (byte)'d'; // первый байт всегда d.
 
-    @Override
-    public synchronized void backward () {
-        serial.write((byte) 'b');
-        serial.flush();
-    }
-
-    @Override
-    public synchronized void stop () {
-        serial.write((byte) 's');
-        serial.flush();
-    }
-
-    @Override
-    public void cameraUp() {
-        serial.write((byte) 'u');
-        serial.flush();
-    }
-
-    @Override
-    public void cameraDown() {
-        serial.write((byte) 'd');
-        serial.flush();
-    }
-
-    @Override
-    public void cameraLeft() {
-        serial.write((byte) 'q');
-        serial.flush();
-    }
-
-    @Override
-    public void cameraRight() {
-        serial.write((byte) 'e');
-        serial.flush();
-    }
-
-    @Override
-    public void cameraCenter() {
-        serial.write((byte) 'w');
-        serial.flush();
+        if(left < 0){
+            buf[1] = -1; // направление для левого двигателя
+        }
+        buf[2] = (byte)Math.abs(left);
+        
+        if(right < 0){
+            buf[3] = -1;
+        }
+        buf[4] = (byte)Math.abs(right);
+        
+        serial.write(buf);
     }
 
     private class Listener implements SerialDataListener {

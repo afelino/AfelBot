@@ -8,53 +8,16 @@ package ru.tsirkunov.afelbot;
 public interface MotorDriver {
 
     /**
-     * Двигаться назад.
+     * Можность подаваемая на двигатели. Допустимые значения от 0 до 255, где
+     * 0 - полная остановка, а 255 полный газ. При этом знак числа определяет
+     * направление, + - вперед, а - это назад. 
+     * 
+     * Значеня int, потому что внутри Java все типы меньше int все равно
+     * приводит к int, когда они передаются в качестве параметров.
+     * 
+     * @param left левый двигатель.
+     * @param right правый двигатель.
      */
-    public void backward();
-
-    /**
-     * Двигаться вперед.
-     */
-    public void forward();
-
-    /**
-     * Поворачивать влево на месте.
-     */
-    public void left();
-
-    /**
-     * Поворачивать вправо на месте.
-     */
-    public void right();
-
-    /**
-     * Остановиться.
-     */
-    public void stop();
-    
-    /**
-     * Поднять камеру
-     */
-    public void cameraUp(); 
-    
-    /**
-     * Опустить камеру
-     */
-    public void cameraDown(); 
-    
-    /**
-     * Повернуть камеру влево.
-     */
-    public void cameraLeft(); 
-    
-    /**
-     * Повернуть камеру вправо.
-     */
-    public void cameraRight(); 
-    
-    /**
-     * Отцентрировать камеру.
-     */
-    public void cameraCenter(); 
+    public void motor(int left, int right);
     
 }

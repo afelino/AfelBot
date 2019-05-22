@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { JoyStickControl } from './JoyStickControl';
-
 // Этот класс занимается обменом данными с сервером запущенным на плате Raspberry Pi.
 // Этот сервис позволяет отправлять данные 
 @Injectable({
