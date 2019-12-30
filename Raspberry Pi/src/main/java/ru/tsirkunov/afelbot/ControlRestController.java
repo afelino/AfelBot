@@ -1,5 +1,7 @@
 package ru.tsirkunov.afelbot;
 
+import java.io.IOException;
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.UnicastProcessor;
 
 /**
  * Контроллер, который принимает сигналы на управление основными двигателями.
@@ -14,6 +17,7 @@ import reactor.core.publisher.Mono;
  * @author Циркунов Виталий Андреевич
  */
 @RestController
+@AllArgsConstructor
 @RequestMapping(path = "/api/control")
 public class ControlRestController {
 
@@ -22,11 +26,10 @@ public class ControlRestController {
     
     private static final double MAX_MOTOR_LEVEL = 255.0;
 
-    @Setter(onMethod_ = {@Autowired})
-    private MotorDriver motorDriver;
+    private final UnicastProcessor<MainMotorPower> motorProcessor;
     
     @RequestMapping(method = RequestMethod.POST, path = "motor")
-    public Mono<String> test(@RequestBody JoystickControl control){
+    public Mono<String> test(@RequestBody JoystickControl control) throws IOException{
         double angle = control.getAngle();
         double left;
         double right;
@@ -54,10 +57,11 @@ public class ControlRestController {
         right = right / 100 * distance;
         
         // Округляем значения и приводим к типу int.
-        int leftInt = (int)Math.round(left);
-        int rightInt = (int)Math.round(right);
+        short leftInt = (short)Math.round(left);
+        short rightInt = (short)Math.round(right);
         
-        motorDriver.motor(leftInt, rightInt);
+        MainMotorPower mainMotorPower = new MainMotorPower(leftInt, rightInt);
+        motorProcessor.onNext(mainMotorPower);
 
         return Mono.just("true");
     }

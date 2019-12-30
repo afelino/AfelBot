@@ -2,7 +2,7 @@
 
 // Закомментировано все, что свзяано с вращением камеры.
 
-#include <Servo.h> 
+//#include <Servo.h> 
  
 const int LEFT_MOTOR_DIR_PIN = 7;
 const int LEFT_MOTOR_PWM_PIN = 9;
@@ -46,7 +46,7 @@ void setup()
 //    cameraUpDown.attach(13);
 //    cameraUpDown.write(CAMERA_STRAIGHT_FORWARD);
 
-    Serial.begin(115200, SERIAL_8N1);
+    Serial.begin(19200, SERIAL_8N1);
     while (!Serial) {}
     
 }

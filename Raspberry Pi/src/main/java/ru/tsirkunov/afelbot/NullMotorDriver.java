@@ -1,5 +1,8 @@
 package ru.tsirkunov.afelbot;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.reactivestreams.Subscription;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +15,40 @@ import org.springframework.stereotype.Service;
 @Profile("debug")
 public class NullMotorDriver implements MotorDriver {
 
+    private volatile Subscription subscribtion;
+    
+    /**
+     * Сразу заявляем, что готовы принимать данные.
+     * @param subscribtion 
+     */
     @Override
-    public void motor(int left, int right) {
+    public void onSubscribe(Subscription subscribtion) {
+        this.subscribtion = subscribtion;
+        subscribtion.request(1L);
+    }
+
+    /**
+     * Кога приходят данные, распечатываем на экране значения, и тут же
+     * запрашиваем следующие данные.
+     * @param t 
+     */
+    @Override
+    public void onNext(MainMotorPower t) {
+        print(t.getLeft(), t.getRight());
+        subscribtion.request(1L);
+        try {
+            Thread.sleep(500L);
+        } catch (InterruptedException ex) {
+        }
+    }
+
+    @Override
+    public void onError(Throwable thrwbl) {}
+
+    @Override
+    public void onComplete() {}
+
+    public void print(int left, int right) {
         System.out.print("Двигатели: ");
         printMotorData("левый", left);
         System.out.print(", ");
@@ -52,4 +87,5 @@ public class NullMotorDriver implements MotorDriver {
             return "назад ";
         }
     }
+
 }
