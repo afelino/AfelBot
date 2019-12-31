@@ -5,3 +5,4 @@ Raspberry Pi/target
 /Raspberry Pi/.project
 /Raspberry Pi/.settings/
 /Raspberry Pi/.vscode/
+*.bak
