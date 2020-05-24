@@ -1,7 +1,7 @@
 ﻿// Jetson Nano.cpp: определяет точку входа для приложения.
 //
 
-#include "Jetson Nano.h"
+#include "main.h"
 
 using namespace std;
 
