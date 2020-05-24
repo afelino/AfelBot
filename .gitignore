@@ -1,4 +1,3 @@
 Raspberry Pi/target
-/Jetson Nano/AfelBot/.vs/
-/Jetson Nano/AfelBot/ARM/
-/Jetson Nano/AfelBot/x64/
+/Jetson Nano/.vs
+/Jetson Nano/out/
