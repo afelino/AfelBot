@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Поиск библиотеки libevent
-find_package(Libevent CONFIG REQUIRED)
+find_package(libevent CONFIG REQUIRED)
 include_directories(${LIBEVENT_INCLUDE_DIRS})
 
 # Добавьте источник в исполняемый файл этого проекта.
