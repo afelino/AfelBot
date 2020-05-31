@@ -3,7 +3,10 @@
 #
 cmake_minimum_required (VERSION 3.10)
 
-project (AfelBot VERSION 2.0 LANGUAGES CXX CUDA)
+#project (AfelBot VERSION 2.0 LANGUAGES CXX CUDA)
+project (AfelBot VERSION 2.0)
+
+
 
 # Через этот файл версия приложения будет проброшена в само приложение.
 configure_file(AfelBotConfig.h.in AfelBotConfig.h)
@@ -13,11 +16,11 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Поиск библиотеки libevent
-find_package(libevent CONFIG REQUIRED)
+find_package(libevent CONFIG REQUIRED PATHS ./ NO_DEFAULT_PATH)
 include_directories(${LIBEVENT_INCLUDE_DIRS})
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (AfelBot "main.cu" "main.h" )
+add_executable (AfelBot "main.cpp" "main.h" )
 
 # We need to explicitly state that we need all CUDA files in the 
 # particle library to be built with -dc as the member functions 
@@ -27,4 +30,5 @@ set_target_properties( AfelBot
 
 target_include_directories(AfelBot PUBLIC ${PROJECT_BINARY_DIR})
 
-target_link_libraries(AfelBot PRIVATE event_shared event_core_shared event_extra_shared)
+#target_link_libraries(AfelBot PRIVATE event_shared event_core_shared event_extra_shared)
+target_link_libraries(AfelBot PRIVATE event)

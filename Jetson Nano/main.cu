@@ -1,6 +1,7 @@
 ﻿// Jetson Nano.cpp: определяет точку входа для приложения.
 
 #include <evhttp.h>
+#include <memory>
 
 #include "main.h"
 #include "AfelBotConfig.h"
