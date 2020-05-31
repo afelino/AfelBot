@@ -20,7 +20,7 @@ find_package(libevent CONFIG REQUIRED PATHS ./ NO_DEFAULT_PATH)
 include_directories(${LIBEVENT_INCLUDE_DIRS})
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (AfelBot "main.cpp" "main.h" )
+add_executable (AfelBot "main.cu" "main.h" )
 
 # We need to explicitly state that we need all CUDA files in the 
 # particle library to be built with -dc as the member functions 
